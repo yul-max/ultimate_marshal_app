@@ -1,0 +1,22 @@
+{
+  "name": "ultimate_marshal_app",
+  "version": "1.0.0",
+  "description": "Ultimate Frisbee Tournament App",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yul-max/ultimate_marshal_app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yul-max/ultimate_marshal_app/issues"
+  },
+  "homepage": "https://github.com/yul-max/ultimate_marshal_app#readme",
+  "dependencies": {
+    "nano": "^10.0.0"
+  }
+}
