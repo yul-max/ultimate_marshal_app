@@ -1,15 +1,10 @@
 import pg from 'pg';
 import { schema } from './schema/index.js';
+import { db } from './constants/configs.js';
 
 async function initDB() {
     try {
-        const pool = new pg.Pool({
-            host: 'localhost',
-            user: 'admin',
-            password: 'admin',
-            database: 'ultimarshal',
-            port: 5432
-        });
+        const pool = new pg.Pool(db);
 
         schema.forEach(async (val) => {
             try {
