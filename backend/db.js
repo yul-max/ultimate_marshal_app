@@ -24,8 +24,8 @@ async function initDB() {
 
 const pool = new pg.Pool(conf);
 export const db = {
-    query: (text, params, callback) => {
-        return pool.query(text, params, callback);
+    query: (text, params) => {
+        return pool.query(text, params);
     },
     getClient: (callback) => {
         pool.connect((err, client, done) => {
