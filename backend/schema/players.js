@@ -1,8 +1,9 @@
-export const players = `CREATE TABLE IF NOT EXISTS "Players" (
-    "id"        INTEGER NOT NULL UNIQUE,
-    "team"      INTEGER NOT NULL,
-    "name"      TEXT NOT NULL UNIQUE,
-    "jersey"    INTEGER NOT NULL,
-    PRIMARY KEY("id"),
-    FOREIGN KEY("team") REFERENCES Teams("id")
+export const players = `CREATE TABLE IF NOT EXISTS players(
+    id      SERIAL PRIMARY KEY,
+    team    INT NOT NULL,
+    name    VARCHAR(255) NOT NULL UNIQUE,
+    jersey  INT NOT NULL,
+    is_capt BOOLEAN NOT NULL,    
+    FOREIGN KEY (team)
+        REFERENCES teams (id)
 )`;

@@ -1,31 +1,29 @@
-import sqlite3  from 'sqlite3';
-import { open } from 'sqlite';
+import pg from 'pg';
 import { schema } from './schema/index.js';
-
-let filename = './cfda.db';
 
 async function initDB() {
     try {
-        const db = await open({
-            filename,
-            driver: sqlite3.cached.Database,
+        const pool = new pg.Pool({
+            host: 'localhost',
+            user: 'admin',
+            password: 'admin',
+            database: 'ultimarshal',
+            port: 5432
         });
 
-        console.log('Connected to the tables DB');
         schema.forEach(async (val) => {
             try {
-                db.run(val);
+                await pool.query(val);
+                console.log('Created table!');
             } catch (err) {
-                console.log('Error creating table');
-                console.log(err);
+                console.log(err.stack);
             }
         });
 
-        return db;
+        return pool;
     } catch (err) {
-        console.log('Error connecting to database');
         console.log(err);
     }
-};
+}
 
-export const db = initDB();
+export const db_psql = initDB();
