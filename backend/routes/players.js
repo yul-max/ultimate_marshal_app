@@ -2,7 +2,8 @@ import express from 'express';
 import {
     createPlayer,
     getPlayerByName,
-    setCaptain
+    setCaptain,
+    getPlayerByJersey
 } from '../models/players.js';
 import {
     getCaptain,
@@ -72,6 +73,31 @@ router.post('/', async (req, res) => {
             is_capt: null,
             error_message: null
         });
+    }
+
+    try {
+        const jersey_player = await getPlayerByJersey(team, jersey);
+
+        if (jersey_player.length) {
+            return res.status(400).json({
+                id: null,
+                team: null,
+                name: null,
+                jersey: null,
+                is_capt: null,
+                error_message: teams_errors.duplicate_jersey(teamId.id, jersey)
+            });
+        }
+    } catch (err) {
+        debug(err);
+        return res.status(500).json({
+            id: null,
+            team: null,
+            name: null,
+            jersey: null,
+            is_capt: null,
+            error_message: null
+        })
     }
 
     if (is_capt) {

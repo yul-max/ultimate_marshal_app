@@ -7,5 +7,8 @@ export const teams_errors = {
     },
     'has_captain': (team) => {
         return `Team ${team} already has a captain.`
+    },
+    'duplicate_jersey': (team, jersey) => {
+        return `Team ${team} already has a player with jersey number ${jersey}.`
     }
 };

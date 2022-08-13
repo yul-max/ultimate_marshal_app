@@ -42,3 +42,16 @@ export async function getPlayerByName(name) {
         debug(err);
     }
 }
+
+export async function getPlayerByJersey(team, jersey) {
+    try {
+        const player_data = await db.query(
+            player.getByJersey,
+            [team, jersey]
+        );
+
+        return player_data.rows;
+    } catch (err) {
+        debug(err);
+    }
+}
