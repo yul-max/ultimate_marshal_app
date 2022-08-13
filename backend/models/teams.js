@@ -69,10 +69,24 @@ export async function getCaptain(team_id) {
     }
 };
 
+export async function getTeamPlayers(team_id) {
+    try { 
+        const teamPlayers = await db.query(
+            team.getTeamPlayers,
+            [team_id]
+        );
+
+        return teamPlayers.rows;
+    } catch (err) {
+        debug(err);
+    }
+}
+
 export default {
     createTeam,
     getTeamById,
     getTeamByName,
     getCaptain,
+    getTeamPlayers,
     allTeams
 };

@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
             });
     } catch (err) {
         debug(err);
-        return res.status(404).json({
+        return res.status(500).json({
             player: null,
             error_message: null,
         })

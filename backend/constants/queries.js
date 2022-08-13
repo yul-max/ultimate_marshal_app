@@ -3,6 +3,7 @@ export const team = {
     getByName: 'SELECT * FROM teams WHERE name = $1',
     getById: 'SELECT * FROM teams WHERE id = $1',
     getCaptain: 'SELECT player FROM captains WHERE team = $1',
+    getTeamPlayers: 'SELECT * FROM players WHERE team =$1',
     all: 'SELECT * FROM TEAMS',
 };
 

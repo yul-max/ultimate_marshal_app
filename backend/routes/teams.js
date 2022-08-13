@@ -2,7 +2,9 @@ import express from 'express';
 import {
     allTeams,
     createTeam,
+    getTeamById,
     getTeamByName,
+    getTeamPlayers
 } from '../models/teams.js';
 import {
     teams_errors
@@ -32,6 +34,43 @@ router.get('/', async (req, res) => {
         });
     }
 });
+
+// GET LIST OF PLAYERS OF A TEAM
+router.get('/:id(\\d+)/players', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const team = await getTeamById(id);
+
+        if (team === undefined) {
+            return res.status(404).json({
+                players: null,
+                error_message: teams_errors.not_exists(id)
+            });
+        }
+    } catch (err) {
+        debug(err);
+        return res.status(500).json({
+            players: null,
+            error_message: null,
+        });
+    }
+
+    try {
+        const players = await getTeamPlayers(id);
+
+        return res.json({
+            players,
+            error_message: null,
+        })
+    } catch (err) {
+        debug(err);
+        return res.status(500).json({
+            players: null,
+            error_message: null
+        })
+    }
+})
 
 // CREATE A NEW TEAM
 router.post('/', async (req, res) => {
