@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "test",
-    "start": "nodemon DEBUG=backend:* backend/app.js"
+    "start": "DEBUG=backend:* nodemon backend/app.js"
   },
   "repository": {
     "type": "git",

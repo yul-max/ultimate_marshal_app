@@ -1,6 +1,9 @@
 import pg from 'pg';
 import { schema } from './schema/index.js';
 import { db as conf } from './constants/configs.js';
+import createDebug from 'debug';
+
+const debug = createDebug('backend:db');
 
 async function initDB() {
     try {
@@ -9,16 +12,15 @@ async function initDB() {
         schema.forEach(async (val) => {
             try {
                 await pool.query(val);
-                console.log('Created table!');
             } catch (err) {
-                console.log(err.stack);
+                debug(err.stack);
             }
         });
 
         pool.end();
         return pool;
     } catch (err) {
-        console.log(err);
+        debug(err);
     }
 } export const db_psql = initDB();
 
