@@ -4,8 +4,12 @@ import {
     createTeam,
     getTeamById,
     getTeamByName,
-    getTeamPlayers
+    getTeamPlayers,
+    deleteTeam
 } from '../models/teams.js';
+import {
+    updateCaptain
+} from '../models/players.js';
 import {
     teams_errors
 } from '../constants/error_messages.js';
@@ -124,5 +128,80 @@ router.post('/', async (req, res) => {
         })
     }
 })
+
+// UPDATE TEAM CAPTAIN
+router.patch('/:id(\\d+)/captain', async (req, res) => {
+    const { id } = req.params;
+    const { player_id } = req.body;
+    
+    if (id === undefined || player_id === undefined) {
+        return res.status(400).json({
+            team_id: null,
+            captain_id: null,
+            error_message: null,
+        })
+    }
+
+    try {
+        const capt_id = await updateCaptain(player_id, id);
+
+        return res.status(200).json({
+            team_id: id,
+            captain_id: player_id,
+            error_message: null,
+        })
+    } catch (err) {
+        debug(err);
+        return res.status(500).json({
+            team_id: null,
+            captain_id: null,
+            error_message: null
+        })
+    }
+});
+
+// DELETE TEAM AND MEMBERS
+router.delete('/:id(\\d+)', async (req, res) => {
+    const { id } = req.params;
+
+    if (id === undefined) {
+        return res.status(400).json({
+            team_id: null,
+            error_message: null
+        });
+    }
+
+    try {
+        const team = await getTeamById(id);
+
+        if (team === undefined) {
+            return res.status(404).json({
+                team_id: null,
+                error_message: teams_errors.not_exists(id)
+            });
+        }
+    } catch (err) {
+        debug(err);
+        return res.status(500).json({
+            team_id: null,
+            error_message: null,
+        });
+    }
+
+    try {
+        const team_id = await deleteTeam(id);
+
+        return res.status(200).json({
+            team_id: id,
+            error_message: null
+        });
+    } catch (err) {
+        debug(err);
+        return res.status(500).json({
+            team_id: null,
+            error_message: null,
+        });
+    }
+});
 
 export const teamsRouter = router;

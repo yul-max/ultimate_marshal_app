@@ -1,15 +1,24 @@
 export const team = {
-    create: 'INSERT INTO teams (name, logo_url, city) VALUES ($1, $2, $3) RETURNING id',
+    create: 'INSERT INTO teams (name, logo_url, city) VALUES ($1, $2, $3)',
     getByName: 'SELECT * FROM teams WHERE name = $1',
     getById: 'SELECT * FROM teams WHERE id = $1',
     getCaptain: 'SELECT player FROM captains WHERE team = $1',
-    getTeamPlayers: 'SELECT * FROM players WHERE team =$1',
-    all: 'SELECT * FROM TEAMS',
+    getTeamPlayers: 'SELECT * FROM players WHERE team =$1 ORDER BY is_capt DESC',
+    all: 'SELECT * FROM teams',
+    delete: 'DELETE FROM teams WHERE id = $1'
 };
 
 export const player = {
-    create: 'INSERT INTO players (team, name, jersey, is_capt) VALUES ($1, $2, $3, $4) RETURNING *',
+    create: 'INSERT INTO players (team, name, jersey, is_capt) VALUES ($1, $2, $3, $4)',
     getByName: 'SELECT * FROM players WHERE name = $1',
     getByJersey: 'SELECT * FROM players WHERE team = $1 AND jersey = $2',
-    setCaptain: 'INSERT INTO captains (team, player) VALUES ($1, $2) RETURNING *'
+    unsetCaptain: 'UPDATE players SET is_capt = false WHERE team = $1 AND is_capt = true',
+    setCaptain: 'UPDATE players SET is_capt = true WHERE id = $1 AND is_capt = false',
+    deleteByTeam: 'DELETE FROM players WHERE team = $1'
 };
+
+export const captains = {
+    create: 'INSERT INTO captains (team, player) VALUES ($1, $2) RETURNING *',
+    update: 'UPDATE captains SET player = $1 WHERE team = $2',
+    delete: 'DELETE FROM captains WHERE team = $1'
+}

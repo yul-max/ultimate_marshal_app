@@ -20,12 +20,14 @@
   "homepage": "https://github.com/yul-max/ultimate_marshal_app#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "debug": "npm:@milahu/debug-esm@^4.3.5",
     "express": "^4.18.1",
     "http": "^0.0.1-security",
     "nano": "^10.0.0",
-    "nodemon": "^2.0.19",
     "path": "^0.12.7",
     "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "debug": "npm:@milahu/debug-esm@^4.3.5",
+    "nodemon": "^2.0.19"
   }
 }

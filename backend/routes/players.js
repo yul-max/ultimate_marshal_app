@@ -3,7 +3,7 @@ import {
     createPlayer,
     getPlayerByName,
     setCaptain,
-    getPlayerByJersey
+    getPlayerByJersey,
 } from '../models/players.js';
 import {
     getCaptain,
@@ -173,6 +173,6 @@ router.post('/', async (req, res) => {
             error_message: null,
         })
     }
-})
+});
 
 export const playersRouter = router;
