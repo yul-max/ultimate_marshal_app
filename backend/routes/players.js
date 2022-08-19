@@ -40,6 +40,7 @@ router.post('/', async (req, res) => {
     let teamId;
 
     if (team === undefined || name === undefined || jersey === undefined || is_capt === undefined) {
+        debug('400 Missing data in request body');
         return res.status(400).json({
             id: null,
             team: null,
@@ -54,6 +55,7 @@ router.post('/', async (req, res) => {
         teamId = await getTeamById(team);
 
         if (teamId === undefined) {
+            debug(`400 ${teams_errors.not_exists(team)}`);
             return res.status(400).json({
                 id: null,
                 team: null,
@@ -79,6 +81,7 @@ router.post('/', async (req, res) => {
         const jersey_player = await getPlayerByJersey(team, jersey);
 
         if (jersey_player.length) {
+            debug(`400 ${teams_errors.duplicate_jersey(teamId.id, jersey)}`);
             return res.status(400).json({
                 id: null,
                 team: null,
@@ -107,6 +110,8 @@ router.post('/', async (req, res) => {
             if (teamCapt.length) {
                 try {
                     const team_name = teamId.name;
+
+                    debug(`400 ${teams_errors.has_captain(team_name)}`);
 
                     return res.status(400).json({
                         id: null,
@@ -142,6 +147,28 @@ router.post('/', async (req, res) => {
     }
 
     try {
+        const player = await getPlayerByName(name);
+
+        if (player.length) {
+            debug(`400 ${teams_errors.duplicate_name(team, name)}`);
+            return res.status(400).json({
+                id: null,
+                team: null,
+                name: null,
+                jersey: null,
+                is_capt: null,
+                error_message: teams_errors.duplicate_name(team, name)
+            })
+        }        
+    } catch (err) {
+        debug(err);
+        return res.status(500).json({
+            player: null,
+            error_message: null,
+        })
+    }
+
+    try {
         const player_data = await createPlayer(team, name, jersey, is_capt);
 
         if (is_capt) {
@@ -152,7 +179,7 @@ router.post('/', async (req, res) => {
             }
         }
 
-        debug(`Player ${name} created!`);
+        debug(`201 Player ${name} for Team ${team} created!`);
 
         return res.status(201).json({
             id: player_data,

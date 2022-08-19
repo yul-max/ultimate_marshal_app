@@ -114,6 +114,20 @@ export async function deleteTeam(team_id) {
     }
 }
 
+export async function getPlayerByName(team_id, player_name) {
+    try {
+        const player_data = await db.query(
+            team.getPlayerByName,
+            [player_name, team_id]
+        );
+
+        return player_data.rows;
+    } catch (err) {
+        debug(err);
+        throw err;
+    }
+}
+
 export default {
     createTeam,
     getTeamById,
