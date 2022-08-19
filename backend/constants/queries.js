@@ -24,3 +24,9 @@ export const captains = {
     update: 'UPDATE captains SET player = $1 WHERE team = $2',
     delete: 'DELETE FROM captains WHERE team = $1'
 }
+
+export const matches = {
+    template: 'INSERT INTO matches (pitch, start_time, duration, end_time) VALUES ($1, $2, $3, $4) RETURNING *',
+    update: 'UPDATE matches SET team_one = $1, team_two = $2 WHERE match_id = $3',
+    changeStartTime: 'UPDATE matches SET start_time = $1 WHERE match_id = $2'
+}

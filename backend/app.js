@@ -9,6 +9,7 @@ const debug = createDebug('backend:server');
 // Routers
 import { teamsRouter } from './routes/teams.js';
 import { playersRouter } from './routes/players.js';
+import { matchesRouter } from './routes/matches.js';
 
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(cors());
 // Routers
 app.use('/teams', teamsRouter);
 app.use('/players', playersRouter);
+app.use('/matches', matchesRouter);
 
 // Creating Server
 const port = '3000';

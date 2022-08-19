@@ -1,5 +1,7 @@
-import { players }  from './players.js';
-import { teams } from './teams.js';
-import { captains } from './captains.js';
 
-export const schema =  [teams, players, captains];
+import { teams } from './teams.js';
+import { players } from './players.js';
+import { captains } from './captains.js';
+import { matches } from './matches.js';
+
+export const schema =  [teams, players, captains, matches];
